@@ -130,17 +130,18 @@
     var o = objectOf(p, track);
     // code: the screen itself, annotated
     if (o.kind === 'shot') {
-      var rest = p.media.filter(function (n) { return n !== p.shot; }).slice(0, 3);
+      var main = p.procShot ? p.procShot[0] : p.shot;
+      var rest = p.thumbs || p.media.filter(function (n) { return n !== main && n !== p.shot; }).slice(0, 3).map(function (n) { return [n, '']; });
       return '<section class="board s-proc P-code' + (o.round ? ' is-round' : '') + '" data-id="' + p.id + '" data-slide="proc" aria-label="' + esc(plain(p.name)) + ', inside">' +
         '<div class="frame">' + runhead(p, i, 'Inside') +
-          '<figure class="feat"><div class="feat-art"><img src="' + src(p.shot) + '" width="' + dims(p.shot)[0] + '" height="' + dims(p.shot)[1] + '" alt="' + esc(plain(p.name)) + ' screen" loading="lazy" decoding="async"></div></figure>' +
+          '<figure class="feat"><div class="feat-art"><button class="zoom" data-zoom="' + main + '" aria-label="Enlarge"><img src="' + src(main) + '" width="' + dims(main)[0] + '" height="' + dims(main)[1] + '" alt="' + esc(plain(p.name)) + ' screen" loading="lazy" decoding="async"></button></div>' + (p.procShot && p.procShot[1] ? '<figcaption class="feat-cap">' + esc(p.procShot[1]) + '</figcaption>' : '') + '</figure>' +
           '<div class="story">' +
             (p.story ? '<p class="story-t">' + esc(p.story) + '</p>' : '<p class="story-t">' + esc(p.sub) + '</p>') +
             '<ul class="chips">' + p.tags.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
             actions(p) +
             (p.live ? '<button class="btn btn-run" data-run="' + p.id + '">Run it here' + ICON.play + '</button>' : '') +
           '</div>' +
-          (rest.length ? '<div class="thumbs t' + rest.length + '">' + rest.map(function (n, j) { return fig(n, '', j + 1, '', true); }).join('') + '</div>' : '') +
+          (rest.length ? '<div class="thumbs t' + rest.length + '">' + rest.map(function (f, j) { return fig(f[0], f[1], j + 1, '', true); }).join('') + '</div>' : '') +
           '<div class="live" hidden></div>' +
           '</div></section>';
     }

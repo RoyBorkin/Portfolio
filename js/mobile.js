@@ -105,11 +105,12 @@
     }
     function procScreen(p, o) {
       if (o.kind === 'shot') {
-        var rest = p.media.filter(function (n) { return n !== p.shot; }).slice(0, 2);
+        var main = p.procShot ? p.procShot[0] : p.shot;
+        var rest = (p.thumbs || p.media.filter(function (n) { return n !== main && n !== p.shot; }).map(function (n) { return [n, '']; })).slice(0, 2);
         return '<section class="m-scr s-proc s-code">' +
           '<p class="m-kicker">Inside</p>' +
-          '<button class="m-ph m-shot" data-zoom="' + p.shot + '"><img src="' + B.src(p.shot) + '" alt="' + esc(plain(p.name)) + ' screen"></button>' +
-          (rest.length ? '<div class="m-thumbs">' + rest.map(function (n) { return ph(n, '', 0); }).join('') + '</div>' : '') +
+          '<button class="m-ph m-shot" data-zoom="' + main + '"><img src="' + B.src(main) + '" alt="' + esc(plain(p.name)) + ' screen"></button>' +
+          (rest.length ? '<div class="m-thumbs">' + rest.map(function (f) { return ph(f[0], f[1], 0); }).join('') + '</div>' : '') +
           '<div class="m-acts">' +
             (p.live ? '<a class="m-btn m-btn-solid" href="' + p.live + '" target="_blank" rel="noopener">Open the app' + I.out + '</a>' : '') +
             (p.repo ? '<a class="m-btn" href="' + p.repo + '" target="_blank" rel="noopener">Source code' + I.out + '</a>' : '') +
