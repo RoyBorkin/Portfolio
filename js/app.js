@@ -168,6 +168,32 @@
       } else { box.hidden = true; box.innerHTML = ''; b.classList.remove('is-running'); t.innerHTML = 'Run it here' + ICON.play; B.layout(b); }
     }
   });
+  /* ───────── contact popover ───────── */
+  var ctBtn = document.getElementById('ctBtn'), ctPop = document.getElementById('ctPop');
+  var CI = {
+    phone: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.5-4A8 8 0 1 1 9 19.5z"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+    out: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 17 7M9 7h8v8"/></svg>'
+  };
+  function ctRow(href, icon, label, value, ext) { return '<a href="' + href + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' + icon + '<span><b>' + label + '</b>' + esc(value) + '</span></a>'; }
+  ctPop.innerHTML =
+    '<p class="ct-name">Roy Borkin</p>' +
+    ctRow('tel:' + P.phone.replace(/[^+\d]/g, ''), CI.phone, 'Call', P.phone) +
+    ctRow('https://wa.me/' + P.phone.replace(/[^\d]/g, ''), CI.chat, 'WhatsApp', P.phone, true) +
+    ctRow('mailto:' + P.email, CI.mail, 'Email', P.email) +
+    ctRow(P.linkedin, CI.out, 'LinkedIn', 'linkedin.com/in/royborkin', true) +
+    ctRow(P.instagram, CI.out, 'Instagram', '@royborkin', true) +
+    ctRow(P.github, CI.out, 'GitHub', 'github.com/RoyBorkin', true);
+  function ctOpen(on) {
+    ctBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+    if (on) { ctPop.hidden = false; requestAnimationFrame(function () { ctPop.classList.add('open'); }); }
+    else { ctPop.classList.remove('open'); setTimeout(function () { if (!ctPop.classList.contains('open')) ctPop.hidden = true; }, 180); }
+  }
+  ctBtn.addEventListener('click', function (e) { e.stopPropagation(); ctOpen(ctPop.hidden || !ctPop.classList.contains('open')); });
+  document.addEventListener('click', function (e) { if (!ctPop.hidden && !ctPop.contains(e.target)) ctOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !ctPop.hidden) { ctOpen(false); ctBtn.focus(); } });
+
   window.addEventListener('hashchange', render);
   render();
 })();
