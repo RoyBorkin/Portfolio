@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" data-track="id" data-view="home">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Roy Borkin — Portfolio</title>
+<meta name="description" content="Roy Borkin, industrial designer and developer. Products, instruments, research and software, from parametric model to the object in your hand.">
+<meta name="theme-color" content="#e3e4e6">
+<meta property="og:title" content="Roy Borkin — Portfolio">
+<meta property="og:description" content="From parametric model to the object in your hand.">
+<meta property="og:image" content="media/vertex-01.webp">
+<link rel="icon" href="media/logo-b1-s.webp">
+<link rel="preload" href="fonts/outfit-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/outfit-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+<script>
+  (function () {
+    var m = location.hash.match(/^#\/(id|code)/), t = m ? m[1] : null;
+    try { t = t || localStorage.getItem('rb-track'); } catch (e) {}
+    if (t === 'id' || t === 'code') document.documentElement.dataset.track = t;
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="topbar">
+<nav class="links" aria-label="Sections">
+  <a href="#/id" data-nav="work">Work</a>
+  <a href="#/id/about" data-nav="about">About</a>
+  <a id="pdfLink" href="pdf/Roy-Borkin-Industrial-Design.pdf" download>PDF</a>
+</nav>
+<nav class="tag" aria-label="Portfolio version">
+  <a href="#/id" data-track-link="id"><span class="long">Industrial design</span><span class="short">Design</span></a>
+  <a href="#/code" data-track-link="code"><span class="long">Programmer</span><span class="short">Code</span></a>
+  <a class="m-only" href="#/id/about" data-m="about">About</a>
+  <a class="m-only" href="pdf/Roy-Borkin-Industrial-Design.pdf" data-m="pdf" download>PDF</a>
+</nav>
+</div>
+<nav class="pager" aria-label="Boards"></nav>
+
+<main id="main" tabindex="-1"></main>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lb-close" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="lb-prev" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <figure class="lb-stage"></figure>
+  <button class="lb-next" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <p class="lb-count" aria-live="polite"></p>
+</div>
+
+<script src="data/media.js"></script>
+<script src="data/lines.js"></script>
+<script src="data/projects.js"></script>
+<script src="js/board.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

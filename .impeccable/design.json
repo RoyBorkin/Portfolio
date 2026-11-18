@@ -1,0 +1,36 @@
+{
+ "color": {
+  "studio": "#E3E4E6",
+  "sweep": "#F3F3F4",
+  "floor": "#D3D5D8",
+  "ink": "#17181A",
+  "graphite": "#55585E",
+  "paper": "#FFFFFF",
+  "signal": "#1E9E5A"
+ },
+ "font": {
+  "family": "Outfit",
+  "weights": [
+   300,
+   400,
+   500,
+   600,
+   700,
+   800
+  ]
+ },
+ "radius": {
+  "window": "10px",
+  "default": "0"
+ },
+ "motion": {
+  "easeOut": "cubic-bezier(0.23,1,0.32,1)",
+  "easeInOut": "cubic-bezier(0.77,0,0.175,1)",
+  "press": "140ms",
+  "ui": "220ms",
+  "draw": "700ms",
+  "trace": "1300ms",
+  "view": "480ms"
+ },
+ "frameInset": "clamp(10px,2vw,30px)"
+}
