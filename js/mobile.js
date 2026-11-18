@@ -147,10 +147,13 @@
           '<div class="m-obj"><div class="m-objwrap"><img src="media/hero/me.webp" alt="Roy Borkin"></div></div>' +
           '<div class="m-cap"><p class="m-hook">' + esc(T.hook) + '</p><h2 class="m-name">Roy Borkin</h2><p class="m-line">' + esc(T.line) + '</p>' + contacts() + '</div>' +
         '</section>',
+        '<section class="m-scr s-about"><p class="m-kicker">About</p><p class="m-about">' + esc(S.about[track]) + '</p></section>',
         '<section class="m-scr s-about"><p class="m-kicker">Experience <i>13 years</i></p><ul class="m-rows">' + rows(S.experience) + '</ul></section>',
         '<section class="m-scr s-about"><p class="m-kicker">Education</p><ul class="m-rows edu">' + S.education.map(function (r) { return '<li><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></li>'; }).join('') + '</ul>' +
-          '<p class="m-kicker">Recognition</p>' + chips(S.awards) + '<p class="m-kicker">Languages</p>' + chips(S.languages) + '</section>',
-        '<section class="m-scr s-about"><p class="m-kicker">Tools</p>' + chips(S.tools[track]) + '<p class="m-kicker">Making</p>' + chips(S.make) +
+          '<p class="m-kicker">Certifications</p><ul class="m-rows edu">' + S.certs.map(function (r) { return '<li><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></li>'; }).join('') + '</ul></section>',
+        '<section class="m-scr s-about s-more"><p class="m-kicker">More</p>' +
+          '<button class="m-big" data-act="skills"><b>Skills</b><span>' + S.skillOrder[track].length + ' areas, from ' + esc(S.skillOrder[track][0]) + ' to languages</span>' + I.next + '</button>' +
+          '<button class="m-big" data-act="recog"><b>Recognition</b><span>' + S.awards.length + ' awards and highlights</span>' + I.next + '</button>' +
           '<a class="m-btn m-btn-solid m-pdf" href="' + pdfHref() + '" download>Download the PDF portfolio</a></section>'
       ];
     }
@@ -173,7 +176,7 @@
         if (!p) { location.hash = '#/' + track; return; }
         screens = projectScreens(p, idx); title = plain(p.name); label = pad(idx + 1) + ' / ' + pad(list.length);
       }
-      var names = id === 'about' ? ['About', 'Experience', 'Education', 'Tools'] : screens.map(function (s) { return /s-hero/.test(s) ? 'Overview' : /s-proc/.test(s) ? (/s-code/.test(s) ? 'Inside' : 'Process') : 'Photo'; });
+      var names = id === 'about' ? ['Roy', 'About', 'Experience', 'Education', 'Skills'] : screens.map(function (s) { return /s-hero/.test(s) ? 'Overview' : /s-proc/.test(s) ? (/s-code/.test(s) ? 'Inside' : 'Process') : 'Photo'; });
       story = { id: id, p: p, idx: idx, n: screens.length, at: Math.min(at || 0, screens.length - 1), names: names };
       var wasOpen = !!app.querySelector('.m-story');
       if (!app.querySelector('.m-home')) home();
@@ -416,6 +419,8 @@
       else if (a === 'fs') toggleFs();
       else if (a === 'fshelp') fsHelpSheet();
       else if (a === 'contact') contactSheet();
+      else if (a === 'skills') sheet('<p class="m-kicker">About &amp; CV</p><h2 class="m-sh-t">Skills</h2>' + B.skillsHTML(track), 'is-info is-skills');
+      else if (a === 'recog') sheet('<p class="m-kicker">About &amp; CV</p><h2 class="m-sh-t">Recognition</h2>' + B.recogHTML(), 'is-info');
       else if (a === 'track') { var nt = t.dataset.t; closeSheet(); if (nt !== track) location.hash = '#/' + nt; }
     });
     document.addEventListener('keydown', function (e) {

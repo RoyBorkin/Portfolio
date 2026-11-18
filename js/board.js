@@ -226,14 +226,15 @@
     return '<section class="board is-spec" id="b-about" data-id="about" data-slide="hero" aria-label="About Roy Borkin">' +
       '<div class="frame">' +
         '<p class="num" aria-hidden="true"><span>' + (opts.print ? 'CV' : pad(n)) + '</span></p>' +
-        '<div class="panel panel-l"><div><h3>Experience <small>13 years</small></h3><dl>' + rows(S.experience) + '</dl></div></div>' +
+        '<div class="panel panel-l">' +
+          '<div class="about-p"><h3>About</h3><p>' + esc(S.about[track]) + '</p></div>' +
+          '<div><h3>Experience <small>13 years</small></h3><dl>' + rows(S.experience) + '</dl></div>' +
+        '</div>' +
         '<div class="obj"><div class="obj-frame"><img class="obj-img" src="media/hero/me.webp" width="' + HERO.me[0] + '" height="' + HERO.me[1] + '" alt="Roy Borkin" loading="lazy"></div></div>' +
         '<div class="panel panel-r">' +
           '<div><h3>Education</h3><dl>' + S.education.map(function (r) { return '<div class="row edu"><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl></div>' +
-          '<div><h3>Recognition</h3>' + chips(S.awards) + '</div>' +
-          '<div><h3>Tools</h3>' + chips(S.tools[track]) + '</div>' +
-          '<div><h3>Making</h3>' + chips(S.make) + '</div>' +
-          '<div><h3>Languages</h3>' + chips(S.languages) + '</div>' +
+          '<div><h3>Certifications</h3><dl>' + S.certs.map(function (r) { return '<div class="row cert"><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl></div>' +
+          (opts.print ? '' : '<div class="cv-more"><button class="btn btn-solid" data-pop="skills">Skills</button><button class="btn" data-pop="recognition">Recognition</button></div>') +
         '</div>' +
         '<div class="contact-row">' +
           '<a class="btn btn-solid" href="mailto:' + P.email + '">' + P.email + '</a>' +
@@ -247,6 +248,25 @@
         '<p class="brand">' + esc(T.role) + '</p>' +
         '<span class="dash" aria-hidden="true"></span>' +
       '</div></section>';
+  }
+
+  /* ── Skills & recognition: a pop-up on the site, its own page in the PDF ── */
+  function skillsHTML(track) {
+    var S = P.spec;
+    return '<div class="sk-grid">' + S.skillOrder[track].map(function (k) {
+      return '<section class="sk"><h4>' + esc(k) + '</h4><ul>' + S.skills[k].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></section>';
+    }).join('') + '</div>';
+  }
+  function recogHTML() {
+    return '<ul class="rec">' + P.spec.awards.map(function (a) { return '<li><i></i>' + esc(a) + '</li>'; }).join('') + '</ul>';
+  }
+  function skillsPage(track) {
+    return '<section class="board is-skills" data-id="skills" aria-label="Skills and recognition"><div class="frame">' +
+      '<p class="num" aria-hidden="true"><span>CV</span></p>' +
+      '<div class="sk-page"><h3>Skills</h3>' + skillsHTML(track) + '</div>' +
+      '<div class="rec-page"><h3>Recognition</h3>' + recogHTML() + '</div>' +
+      '<p class="brand">' + esc(P.tracks[track].role) + '</p><span class="dash" aria-hidden="true"></span>' +
+    '</div></section>';
   }
 
   /* ── Callouts on the hero: label outside, leader stops at the object's edge, arrow points in ── */
@@ -341,5 +361,5 @@
     });
   }
 
-  g.Board = { number: number, slides: slides, hero: hero, process: process, full: full, cover: cover, spec: spec, layout: layout, list: list, objectOf: objectOf, esc: esc, pad: pad, src: src, dims: dims, isVid: isVid, plain: plain, ICON: ICON };
+  g.Board = { number: number, skillsHTML: skillsHTML, recogHTML: recogHTML, skillsPage: skillsPage, slides: slides, hero: hero, process: process, full: full, cover: cover, spec: spec, layout: layout, list: list, objectOf: objectOf, esc: esc, pad: pad, src: src, dims: dims, isVid: isVid, plain: plain, ICON: ICON };
 })(window);

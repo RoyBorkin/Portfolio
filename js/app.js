@@ -196,6 +196,27 @@
   document.addEventListener('click', function (e) { if (!ctPop.hidden && !ctPop.contains(e.target)) ctOpen(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !ctPop.hidden) { ctOpen(false); ctBtn.focus(); } });
 
+  /* ───────── skills / recognition pop-up ───────── */
+  var pop = document.createElement('div');
+  pop.className = 'cvpop'; pop.hidden = true; pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-modal', 'true');
+  document.body.appendChild(pop);
+  var popRet = null;
+  function openPop(kind) {
+    popRet = document.activeElement;
+    pop.innerHTML = '<div class="cvpop-card"><div class="cvpop-head"><h3>' + (kind === 'skills' ? 'Skills' : 'Recognition') + '</h3>' +
+      '<button class="cvpop-x" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' +
+      '<div class="cvpop-body">' + (kind === 'skills' ? B.skillsHTML(state.track) : B.recogHTML()) + '</div></div>';
+    pop.setAttribute('aria-label', kind === 'skills' ? 'Skills' : 'Recognition');
+    pop.hidden = false; requestAnimationFrame(function () { pop.classList.add('open'); });
+    pop.querySelector('.cvpop-x').focus(); document.body.style.overflow = 'hidden';
+  }
+  function closePop() { pop.classList.remove('open'); document.body.style.overflow = ''; setTimeout(function () { pop.hidden = true; pop.innerHTML = ''; }, 200); if (popRet) popRet.focus(); }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-pop]'); if (t) { openPop(t.dataset.pop); return; }
+    if (!pop.hidden && (e.target === pop || e.target.closest('.cvpop-x'))) closePop();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pop.hidden) closePop(); });
+
   window.addEventListener('hashchange', render);
   render();
 })();

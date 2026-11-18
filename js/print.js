@@ -12,6 +12,7 @@
   }).join('') + '</ol><h2 class="ttl">Works</h2><p class="brand">' + esc(T.label) + '</p><span class="dash"></span></div></section>');
   items.forEach(function (p, i) { pages.push(B.slides(p, i + 1, track, { eager: true })); });
   pages.push(B.spec(track, 0, { print: true }));
+  pages.push(B.skillsPage(track));
 
   var book = document.getElementById('book');
   book.innerHTML = pages.join('');
