@@ -1,6 +1,7 @@
 /* Roy Borkin portfolio — one continuous deck per version. Static, no build step. */
 (function () {
   'use strict';
+  if (window.MOBILE) return;
   var B = window.Board, P = window.PROFILE, root = document.documentElement, main = document.getElementById('main');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var esc = B.esc, pad = B.pad, ICON = B.ICON;
