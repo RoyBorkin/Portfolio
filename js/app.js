@@ -47,7 +47,6 @@
       a.href = '#/' + a.dataset.trackLink;
     });
     document.querySelectorAll('[data-nav]').forEach(function (a) { a.href = '#/' + state.track + (a.dataset.nav === 'about' ? '/about' : ''); });
-    document.getElementById('pdfLink').href = pdfHref();
     document.querySelectorAll('[data-m="about"]').forEach(function (a) { a.href = '#/' + state.track + '/about'; });
     document.querySelectorAll('[data-m="pdf"]').forEach(function (a) { a.href = pdfHref(); });
     // pager: one mark per project
@@ -192,9 +191,20 @@
     if (on) { ctPop.hidden = false; requestAnimationFrame(function () { ctPop.classList.add('open'); }); }
     else { ctPop.classList.remove('open'); setTimeout(function () { if (!ctPop.classList.contains('open')) ctPop.hidden = true; }, 180); }
   }
-  ctBtn.addEventListener('click', function (e) { e.stopPropagation(); ctOpen(ctPop.hidden || !ctPop.classList.contains('open')); });
+  ctBtn.addEventListener('click', function (e) { e.stopPropagation(); pdOpen(false); ctOpen(ctPop.hidden || !ctPop.classList.contains('open')); });
   document.addEventListener('click', function (e) { if (!ctPop.hidden && !ctPop.contains(e.target)) ctOpen(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !ctPop.hidden) { ctOpen(false); ctBtn.focus(); } });
+
+  /* ───────── PDF chooser (top bar) ───────── */
+  var pdBtns = [document.getElementById('pdfBtn'), document.getElementById('resBtn')], pdPop = document.getElementById('pdfPop'), pdBtn = pdBtns[0];
+  function pdOpen(on, btn) {
+    pdBtns.forEach(function (b) { b.setAttribute('aria-expanded', on && b === btn ? 'true' : 'false'); });
+    if (on) { pdBtn = btn; var cv = btn.dataset.kind === 'resume'; pdPop.innerHTML = '<p class="ct-name">' + (cv ? 'Resume' : 'PDF portfolio') + '</p>' + B.pdfList(state.track, 'pdf-list', btn.dataset.kind); pdPop.hidden = false; pdPop.dataset.kind = btn.dataset.kind; pdPop.style.left = (btn.getBoundingClientRect().left - pdPop.offsetParent.getBoundingClientRect().left) + 'px'; requestAnimationFrame(function () { pdPop.classList.add('open'); }); }
+    else { pdPop.classList.remove('open'); setTimeout(function () { if (!pdPop.classList.contains('open')) pdPop.hidden = true; }, 180); }
+  }
+  pdBtns.forEach(function (b) { b.addEventListener('click', function (e) { e.stopPropagation(); ctOpen(false); var same = !pdPop.hidden && pdPop.classList.contains('open') && pdPop.dataset.kind === b.dataset.kind; pdOpen(!same, b); }); });
+  document.addEventListener('click', function (e) { if (!pdPop.hidden && !pdPop.contains(e.target) || e.target.closest('#pdfPop a')) pdOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pdPop.hidden) { pdOpen(false); pdBtn.focus(); } });
 
   /* ───────── skills / recognition pop-up ───────── */
   var pop = document.createElement('div');
@@ -203,17 +213,19 @@
   var popRet = null;
   function openPop(kind) {
     popRet = document.activeElement;
-    pop.innerHTML = '<div class="cvpop-card"><div class="cvpop-head"><h3>' + (kind === 'skills' ? 'Skills' : 'Recognition') + '</h3>' +
+    var T = { skills: 'Skills', recognition: 'Recognition', pdf: 'PDF portfolio', resume: 'Resume' }[kind];
+    pop.classList.toggle('is-pdf', kind === 'pdf' || kind === 'resume');
+    pop.innerHTML = '<div class="cvpop-card"><div class="cvpop-head"><h3>' + T + '</h3>' +
       '<button class="cvpop-x" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' +
-      '<div class="cvpop-body">' + (kind === 'skills' ? B.skillsHTML(state.track) : B.recogHTML()) + '</div></div>';
-    pop.setAttribute('aria-label', kind === 'skills' ? 'Skills' : 'Recognition');
+      '<div class="cvpop-body">' + (kind === 'skills' ? B.skillsHTML(state.track) : kind === 'pdf' || kind === 'resume' ? '<p class="pdf-lead">Choose a version. It opens in a new tab.</p>' + B.pdfList(state.track, 'pdf-list is-big', kind) : B.recogHTML()) + '</div></div>';
+    pop.setAttribute('aria-label', T);
     pop.hidden = false; requestAnimationFrame(function () { pop.classList.add('open'); });
     pop.querySelector('.cvpop-x').focus(); document.body.style.overflow = 'hidden';
   }
   function closePop() { pop.classList.remove('open'); document.body.style.overflow = ''; setTimeout(function () { pop.hidden = true; pop.innerHTML = ''; }, 200); if (popRet) popRet.focus(); }
   document.addEventListener('click', function (e) {
     var t = e.target.closest('[data-pop]'); if (t) { openPop(t.dataset.pop); return; }
-    if (!pop.hidden && (e.target === pop || e.target.closest('.cvpop-x'))) closePop();
+    if (!pop.hidden && (e.target === pop || e.target.closest('.cvpop-x') || e.target.closest('.cvpop .pdf-list a'))) closePop();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pop.hidden) closePop(); });
 

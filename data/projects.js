@@ -19,6 +19,8 @@ window.PROFILE = {
   github: "https://github.com/RoyBorkin",
   site: "https://royborkin.github.io/Portfolio/",
   base: "Haifa, Israel",
+  resume: { id: "https://drive.google.com/file/d/1W2IUb4iZCngIaRvPFIHlhSEsZfFjFuBU/view?usp=sharing", code: "https://drive.google.com/file/d/1HXnLZkn6Wt5C6LS5n81Nv6jc7KXlitGQ/view?usp=sharing" },
+  pdf: { id: ["Roy-Borkin-Industrial-Design.pdf", "27 pages · 29 MB"], code: ["Roy-Borkin-Programmer.pdf", "22 pages · 10 MB"] },
   tracks: {
     id: {
       label: "Industrial Design",

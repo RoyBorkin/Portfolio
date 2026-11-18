@@ -244,11 +244,24 @@
           '<a class="btn" href="' + P.linkedin + '" target="_blank" rel="noopener">' + (opts.print ? 'linkedin.com/in/royborkin' : 'LinkedIn' + ICON.out) + '</a>' +
           '<a class="btn" href="' + P.github + '" target="_blank" rel="noopener">' + (opts.print ? 'github.com/RoyBorkin' : 'GitHub' + ICON.out) + '</a>' +
           '<a class="btn" href="' + P.instagram + '" target="_blank" rel="noopener">' + (opts.print ? 'instagram.com/royborkin' : 'Instagram' + ICON.out) + '</a>' +
-          (opts.print ? '<a class="btn" href="' + P.site + '">royborkin.github.io/Portfolio</a>' : '<a class="btn" href="' + pdf + '" download>PDF portfolio</a>') +
+          (opts.print ? '<a class="btn" href="' + P.site + '">royborkin.github.io/Portfolio</a>' : '<button class="btn" data-pop="pdf">PDF portfolio</button><button class="btn" data-pop="resume">Resume</button>') +
         '</div>' +
         '<p class="brand">' + esc(T.role) + '</p>' +
         '<span class="dash" aria-hidden="true"></span>' +
       '</div></section>';
+  }
+
+  /* ── PDF chooser: both versions, the current one first ── */
+  var DL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>';
+  var DOC = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5"/></svg>';
+  var RES = { id: 'Industrial Designer', code: 'Programmer' };
+  function pdfList(track, cls, kind) {
+    var order = track === 'code' ? ['code', 'id'] : ['id', 'code'], cv = kind === 'resume';
+    return '<nav class="' + cls + '" aria-label="' + (cv ? 'Resume' : 'PDF portfolio') + '">' + order.map(function (t) {
+      return cv
+        ? '<a href="' + P.resume[t] + '" target="_blank" rel="noopener">' + DOC + '<span><b>' + RES[t] + '</b>Resume · opens in Google Drive</span></a>'
+        : '<a href="pdf/' + P.pdf[t][0] + '" target="_blank" rel="noopener">' + DL + '<span><b>' + esc(P.tracks[t].label) + '</b>' + esc(P.pdf[t][1]) + '</span></a>';
+    }).join('') + '</nav>';
   }
 
   /* ── Skills & recognition: a pop-up on the site, its own page in the PDF ── */
@@ -362,5 +375,5 @@
     });
   }
 
-  g.Board = { number: number, skillsHTML: skillsHTML, recogHTML: recogHTML, skillsPage: skillsPage, slides: slides, hero: hero, process: process, full: full, cover: cover, spec: spec, layout: layout, list: list, objectOf: objectOf, esc: esc, pad: pad, src: src, dims: dims, isVid: isVid, plain: plain, ICON: ICON };
+  g.Board = { number: number, pdfList: pdfList, skillsHTML: skillsHTML, recogHTML: recogHTML, skillsPage: skillsPage, slides: slides, hero: hero, process: process, full: full, cover: cover, spec: spec, layout: layout, list: list, objectOf: objectOf, esc: esc, pad: pad, src: src, dims: dims, isVid: isVid, plain: plain, ICON: ICON };
 })(window);

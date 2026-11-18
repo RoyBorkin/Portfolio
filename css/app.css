@@ -802,3 +802,22 @@ html[data-view="print"] .is-skills .sk h4 { font-size: 15px; }
 html[data-view="print"] .is-skills .sk li { font-size: 13.5px; padding: 6px 9px; }
 html[data-view="print"] .is-skills .sk { margin-bottom: 26px; }
 html[data-view="print"] .is-skills .rec li { font-size: 17px; }
+
+/* PDF chooser */
+.pdf-pop { width: 280px; }
+.pdf-list { display: grid; }
+.pdf-list a { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--hair); color: var(--ink); }
+.pdf-list a svg { width: 18px; height: 18px; padding: 8px; box-sizing: content-box; border-radius: 50%; background: var(--studio); fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; transition: background-color 150ms ease, color 150ms ease; }
+.pdf-list span { display: grid; gap: 2px; font: 400 12.5px/1.2 var(--font); color: var(--graphite); }
+.pdf-list b { font: 600 14px/1.2 var(--font); color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .pdf-list a:hover svg { background: var(--ink); color: var(--paper); } }
+.cvpop.is-pdf .cvpop-card { width: min(460px, 100%); }
+.pdf-lead { font: 400 14px/1.4 var(--font); color: var(--graphite); margin-bottom: 8px; }
+.pdf-list.is-big a { padding: 14px 0; }
+.pdf-list.is-big b { font-size: 17px; }
+html.m-ui .m-pdflist a > svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.cvpop .pdf-list a svg { background: var(--paper); }
+html.m-ui .m-pdfrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+html.m-ui .m-pdfrow .m-btn { width: 100%; justify-content: center; }
+html.m-ui .m-pdfrow .m-pdf { margin-top: 0; }
+html.m-ui .s-about .m-pdfrow { margin-top: auto; }

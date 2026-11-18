@@ -155,7 +155,7 @@
         '<section class="m-scr s-about s-more"><p class="m-kicker">More</p>' +
           '<button class="m-big" data-act="skills"><b>Skills</b><span>' + S.skillOrder[track].length + ' areas, from ' + esc(S.skillOrder[track][0]) + ' to languages</span>' + I.next + '</button>' +
           '<button class="m-big" data-act="recog"><b>Recognition</b><span>' + S.awards.length + ' awards and highlights</span>' + I.next + '</button>' +
-          '<a class="m-btn m-btn-solid m-pdf" href="' + pdfHref() + '" download>Download the PDF portfolio</a></section>'
+          '<div class="m-pdfrow"><button class="m-btn m-btn-solid m-pdf" data-act="pdf">PDF portfolio</button><button class="m-btn m-pdf" data-act="resume">Resume</button></div></section>'
       ];
     }
     function contacts() {
@@ -322,7 +322,7 @@
           list.map(function (p, i) { return '<a href="#/' + track + '/' + p.id + '"' + (cur === p.id ? ' aria-current="page"' : '') + '><b>' + pad(i + 1) + '</b>' + esc(plain(p.name)) + '</a>'; }).join('') +
           '<a href="#/' + track + '/about"' + (cur === 'about' ? ' aria-current="page"' : '') + '><b>CV</b>About &amp; CV</a>' +
         '</nav>' +
-        '<a class="m-btn m-btn-wide" href="' + pdfHref() + '" download>Download the PDF portfolio</a>' +
+        '<div class="m-pdfrow"><button class="m-btn" data-act="pdf">PDF portfolio</button><button class="m-btn" data-act="resume">Resume</button></div>' +
         contacts(), 'is-menu');
     }
     function fsHelpSheet() {
@@ -351,7 +351,7 @@
           '<a href="' + P.instagram + '" target="_blank" rel="noopener">' + I.out + '<span><b>Instagram</b>@royborkin</span></a>' +
           '<a href="' + P.github + '" target="_blank" rel="noopener">' + I.out + '<span><b>GitHub</b>github.com/RoyBorkin</span></a>' +
         '</nav>' +
-        '<a class="m-btn m-btn-wide" href="' + pdfHref() + '" download>Download the PDF portfolio</a>', 'is-contact');
+        '<div class="m-pdfrow"><button class="m-btn" data-act="pdf">PDF portfolio</button><button class="m-btn" data-act="resume">Resume</button></div>', 'is-contact');
     }
     function infoSheet() {
       if (!story || !story.p) return;
@@ -420,6 +420,7 @@
       else if (a === 'fs') toggleFs();
       else if (a === 'fshelp') fsHelpSheet();
       else if (a === 'contact') contactSheet();
+      else if (a === 'pdf' || a === 'resume') sheet('<p class="m-kicker">Choose a version</p><h2 class="m-sh-t">' + (a === 'pdf' ? 'PDF portfolio' : 'Resume') + '</h2>' + B.pdfList(track, 'm-clist m-pdflist', a), 'is-info');
       else if (a === 'skills') sheet('<p class="m-kicker">About &amp; CV</p><h2 class="m-sh-t">Skills</h2>' + B.skillsHTML(track), 'is-info is-skills');
       else if (a === 'recog') sheet('<p class="m-kicker">About &amp; CV</p><h2 class="m-sh-t">Recognition</h2>' + B.recogHTML(), 'is-info');
       else if (a === 'track') { var nt = t.dataset.t; closeSheet(); if (nt !== track) location.hash = '#/' + nt; }
