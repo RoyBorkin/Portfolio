@@ -32,6 +32,7 @@
       card: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.2a3.4 3.4 0 0 1 6.4 0M14.5 10h4M14.5 13.5h3"/></svg>',
       fsOn: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
       fsOff: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>',
+      web: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
       mail: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
     };
     /* full screen (hidden where the browser can't do it, e.g. iPhone Safari) */
@@ -39,7 +40,13 @@
     var canFs = !!(de.requestFullscreen || de.webkitRequestFullscreen) && (document.fullscreenEnabled || document.webkitFullscreenEnabled);
     function isFs() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
     function contactBtn() { return '<button class="m-ic m-fs m-ct" data-act="contact" aria-label="Contact">' + I.card + '</button>'; }
-    function fsBtn() { return canFs ? '<button class="m-ic m-fs" data-act="fs" aria-label="' + (isFs() ? 'Exit full screen' : 'Full screen') + '">' + (isFs() ? I.fsOff : I.fsOn) + '</button>' : ''; }
+    var standalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+    var isIOS = /iP(hone|od|ad)/.test(navigator.platform) || (/Mac/.test(navigator.platform) && navigator.maxTouchPoints > 1) || /iPhone|iPad|iPod/.test(navigator.userAgent);
+    var fsHelp = !canFs && isIOS && !standalone;
+    function fsBtn() {
+      if (fsHelp) return '<button class="m-ic m-fs" data-act="fshelp" aria-label="Full screen">' + I.fsOn + '</button>';
+      return canFs && !standalone ? '<button class="m-ic m-fs" data-act="fs" aria-label="' + (isFs() ? 'Exit full screen' : 'Full screen') + '">' + (isFs() ? I.fsOff : I.fsOn) + '</button>' : '';
+    }
     function toggleFs() {
       if (isFs()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
       else { var r = (de.requestFullscreen || de.webkitRequestFullscreen).call(de, { navigationUI: 'hide' }); if (r && r.catch) r.catch(function () {}); }
@@ -151,6 +158,7 @@
       return '<div class="m-contact">' +
         '<a class="m-btn m-btn-solid" href="tel:' + P.phone.replace(/[^+\d]/g, '') + '">' + I.phone + esc(P.phone) + '</a>' +
         '<a class="m-btn" href="mailto:' + P.email + '">' + I.mail + 'Email</a>' +
+        '<a class="m-btn" href="' + P.website + '" target="_blank" rel="noopener">Website</a>' +
         '<a class="m-btn" href="' + P.linkedin + '" target="_blank" rel="noopener">LinkedIn</a>' +
         '<a class="m-btn" href="' + P.instagram + '" target="_blank" rel="noopener">Instagram</a>' +
         '<a class="m-btn" href="' + P.github + '" target="_blank" rel="noopener">GitHub</a>' +
@@ -313,6 +321,19 @@
         '<a class="m-btn m-btn-wide" href="' + pdfHref() + '" download>Download the PDF portfolio</a>' +
         contacts(), 'is-menu');
     }
+    function fsHelpSheet() {
+      var share = '<svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;vertical-align:-3px"><path d="M12 3v12M8 7l4-4 4 4M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/></svg>';
+      var plus = '<svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;vertical-align:-3px"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg>';
+      sheet(
+        '<p class="m-kicker">Full screen on iPhone</p>' +
+        '<h2 class="m-sh-t">Open it like an app</h2>' +
+        '<p class="m-sh-story">iPhone Safari doesn\'t let websites go full screen. Add the portfolio to your Home Screen and it opens without the browser bars.</p>' +
+        '<ol class="m-steps">' +
+          '<li><span>Tap ' + share + ' <b>Share</b> in Safari\'s toolbar</span></li>' +
+          '<li><span>Choose ' + plus + ' <b>Add to Home Screen</b></span></li>' +
+          '<li><span>Open <b>Roy Borkin</b> from your Home Screen</span></li>' +
+        '</ol>', 'is-info');
+    }
     function contactSheet() {
       sheet(
         '<p class="m-kicker">Contact</p>' +
@@ -321,6 +342,7 @@
           '<a href="tel:' + P.phone.replace(/[^+\d]/g, '') + '">' + I.phone + '<span><b>Call</b>' + esc(P.phone) + '</span></a>' +
           '<a href="https://wa.me/' + P.phone.replace(/[^\d]/g, '') + '" target="_blank" rel="noopener">' + I.chat + '<span><b>WhatsApp</b>' + esc(P.phone) + '</span></a>' +
           '<a href="mailto:' + P.email + '">' + I.mail + '<span><b>Email</b>' + esc(P.email) + '</span></a>' +
+          '<a href="' + P.website + '" target="_blank" rel="noopener">' + I.web + '<span><b>Website</b>royborkin.github.io</span></a>' +
           '<a href="' + P.linkedin + '" target="_blank" rel="noopener">' + I.out + '<span><b>LinkedIn</b>linkedin.com/in/royborkin</span></a>' +
           '<a href="' + P.instagram + '" target="_blank" rel="noopener">' + I.out + '<span><b>Instagram</b>@royborkin</span></a>' +
           '<a href="' + P.github + '" target="_blank" rel="noopener">' + I.out + '<span><b>GitHub</b>github.com/RoyBorkin</span></a>' +
@@ -392,6 +414,7 @@
       else if (a === 'sheetclose') closeSheet();
       else if (a === 'viewclose') closeView();
       else if (a === 'fs') toggleFs();
+      else if (a === 'fshelp') fsHelpSheet();
       else if (a === 'contact') contactSheet();
       else if (a === 'track') { var nt = t.dataset.t; closeSheet(); if (nt !== track) location.hash = '#/' + nt; }
     });

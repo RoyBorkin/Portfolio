@@ -14,6 +14,7 @@ window.PROFILE = {
   email: "royborkin@gmail.com",
   phone: "+972-52-5530002",
   instagram: "https://www.instagram.com/royborkin/",
+  website: "https://royborkin.github.io/",
   linkedin: "https://www.linkedin.com/in/royborkin/",
   github: "https://github.com/RoyBorkin",
   site: "https://royborkin.github.io/Portfolio/",

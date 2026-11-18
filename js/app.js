@@ -173,6 +173,7 @@
   var CI = {
     phone: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
     chat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.5-4A8 8 0 1 1 9 19.5z"/></svg>',
+    web: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
     mail: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
     out: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 17 7M9 7h8v8"/></svg>'
   };
@@ -182,6 +183,7 @@
     ctRow('tel:' + P.phone.replace(/[^+\d]/g, ''), CI.phone, 'Call', P.phone) +
     ctRow('https://wa.me/' + P.phone.replace(/[^\d]/g, ''), CI.chat, 'WhatsApp', P.phone, true) +
     ctRow('mailto:' + P.email, CI.mail, 'Email', P.email) +
+    ctRow(P.website, CI.web, 'Website', 'royborkin.github.io', true) +
     ctRow(P.linkedin, CI.out, 'LinkedIn', 'linkedin.com/in/royborkin', true) +
     ctRow(P.instagram, CI.out, 'Instagram', '@royborkin', true) +
     ctRow(P.github, CI.out, 'GitHub', 'github.com/RoyBorkin', true);

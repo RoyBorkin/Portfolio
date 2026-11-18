@@ -238,6 +238,7 @@
         '<div class="contact-row">' +
           '<a class="btn btn-solid" href="mailto:' + P.email + '">' + P.email + '</a>' +
           '<a class="btn" href="tel:' + P.phone.replace(/[^+\d]/g, '') + '">' + P.phone + '</a>' +
+          '<a class="btn" href="' + P.website + '" target="_blank" rel="noopener">' + (opts.print ? 'royborkin.github.io' : 'Website' + ICON.out) + '</a>' +
           '<a class="btn" href="' + P.linkedin + '" target="_blank" rel="noopener">' + (opts.print ? 'linkedin.com/in/royborkin' : 'LinkedIn' + ICON.out) + '</a>' +
           '<a class="btn" href="' + P.github + '" target="_blank" rel="noopener">' + (opts.print ? 'github.com/RoyBorkin' : 'GitHub' + ICON.out) + '</a>' +
           '<a class="btn" href="' + P.instagram + '" target="_blank" rel="noopener">' + (opts.print ? 'instagram.com/royborkin' : 'Instagram' + ICON.out) + '</a>' +

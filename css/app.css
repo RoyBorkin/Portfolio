@@ -547,6 +547,10 @@ html.m-ui #main, html.m-ui .topbar, html.m-ui .pager, html.m-ui #lb { display: n
 .m-tile-t b { font-weight: 700; font-size: 10.5px; color: var(--graphite); }
 .m-dock { display: flex; justify-content: center; align-items: center; gap: 8px; padding-top: 12px; }
 .m-fs { border: 1px solid var(--hair); background: rgba(255,255,255,.55); }
+.m-steps { counter-reset: n; display: grid; gap: 12px; margin: 8px 0 10px; }
+.m-steps li > span { display: block; } .m-steps li svg { display: inline-block; margin: 0 2px; }
+.m-steps li { counter-increment: n; display: flex; gap: 12px; align-items: center; font: 400 15px/1.35 var(--font); }
+.m-steps li::before { content: counter(n); width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: var(--paper); font: 700 12px/26px var(--font); text-align: center; flex: none; }
 .m-clist { display: grid; margin-top: 6px; }
 .m-clist a { display: flex; gap: 14px; align-items: center; min-height: 58px; padding: 10px 0; border-bottom: 1px solid var(--hair); color: var(--ink); }
 .m-clist a > svg { width: 22px; height: 22px; padding: 10px; box-sizing: content-box; border-radius: 50%; background: var(--paper); }
