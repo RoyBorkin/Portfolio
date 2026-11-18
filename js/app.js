@@ -167,6 +167,11 @@
       } else { box.hidden = true; box.innerHTML = ''; b.classList.remove('is-running'); t.innerHTML = 'Run it here' + ICON.play; B.layout(b); }
     }
   });
+  /* start first, so a problem in the extras below never stops the slides */
+  window.addEventListener('hashchange', render);
+  render();
+
+  try {
   /* ───────── contact popover ───────── */
   var ctBtn = document.getElementById('ctBtn'), ctPop = document.getElementById('ctPop');
   var CI = {
@@ -229,6 +234,5 @@
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pop.hidden) closePop(); });
 
-  window.addEventListener('hashchange', render);
-  render();
+  } catch (err) { if (window.console) console.error(err); }
 })();
